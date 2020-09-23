@@ -223,67 +223,6 @@ const getTransaction = async (adr) => {
   return tran
 }
 
-
-
-// const getToken1 = async () => {
-//   const toknAddress = '0x68d57c9a1c35f63e2c83ee8e49a64e9d70528d25' //sirin
-//   // let txHash = '0x6125e1cc4b445ec8302885338548b3ac6adb615fae130edf732a0a7b1275035e'
-//   //let walletAddress = '0x6748f50f686bfbca6fe8ad62b22228b87f31ff2b'
-//   let minABI = [
-//     // balanceOf
-//     {
-//       "constant": true,
-//       "inputs": [{
-//         "name": "_owner",
-//         "type": "address"
-//       }],
-//       "name": "balanceOf",
-//       "outputs": [{
-//         "name": "balance",
-//         "type": "uint256"
-//       }],
-//       "type": "function"
-//     },
-//     // decimals
-//     {
-//       "constant": true,
-//       "inputs": [],
-//       "name": "decimals",
-//       "outputs": [{
-//         "name": "",
-//         "type": "uint8"
-//       }],
-//       "type": "function"
-//     },
-//     {
-//       "constant": true,
-//       "inputs": [],
-//       "name": "name",
-//       "outputs": [{
-//         "name": "",
-//         "type": "string"
-//       }],
-//       "payable": false,
-//       "stateMutability": "view",
-//       "type": "function"
-//     }
-//   ];
-//   let contract = new web3.eth.Contract(minABI, toknAddress)
-//   // let balance = await contract.methods.balanceOf(walletAddress).call();
-//   let name = await contract.methods.name().call()
-//   // let name = await contract.methods.name().call()
-//   return name
-// }
-
-// app.get('/:address', async (req, res) => {
-//   // res.send('Server up')
-//   const tran = await getTransaction(req.params.address)
-//   console.log('wallet: ' + req.params.address)
-//   res.send(tran)
-
-// })
-
-
 const postTransaction = (trx) => {
   const postTrx = new postTran({
     Hash: trx.hash,
@@ -352,29 +291,15 @@ const getBlockInfo = async (blocknumber) => {
     console.log(err)
   }
 }
-// let i=0
-// const myLoop=() =>{         //  create a loop function
-//   setTimeout(()=> {   //  call a 3s setTimeout when the loop is called
-//     console.log(i);   //  your code here
-//     i++;                    //  increment the counter
-//     if (i < 10) {           //  if the counter < 10, call the loop function
-//       myLoop();             //  ..  again which will trigger another 
-//     }                       //  ..  setTimeout()
-//   }, 3000)
-// }
 
 const getBlockchain = async (blocknum) => {
   try {
     let Promises = []
-    //myLoop()
     console.log('start')
-   // for (let index3 = 450010; index3 <= 450060; index3++) {
-      // setTimeout(()=>{
-      //   console.log(index3)
-      // },index3*1000)
+   
      let blockInfo =  getBlockInfo(blocknum)
       Promises.push(blockInfo)
-   // }
+   
     
 
    let blockChain= await Promise.all(Promises)
