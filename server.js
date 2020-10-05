@@ -171,58 +171,6 @@ const getToken = async (input, tokenadd) => {
   })
 }
 
-
-const getTran = async (adr) => {
-  try {
-    let allTrx = []
-    console.log('start')
-    for (let index3 = 1500000; index3 <= 1500010; index3++) {
-      let result = await web3.eth.getBlock(index3)
-
-      const txn = result.transactions
-      //console.log(txn)
-      let detailTxn = await Promise.all(txn.map(async (item, index) => {
-        var transaction = await web3.eth.getTransaction(item)
-
-        if (transaction.to !== null) //a point that a contact is made
-          if ((transaction.from.toLowerCase() === adr.toLowerCase() || transaction.to.toLowerCase() === adr.toLowerCase())) {
-            if (parseInt(transaction.value) === 0) {
-              let res = await getToken(transaction.input, transaction.to)
-              transaction.value = res.amount
-              transaction.token = res.name
-            } else
-              transaction.value = web3.utils.fromWei(transaction.value, "ether")
-            transaction.gasPrice = web3.utils.fromWei(transaction.gasPrice, "ether")
-            let receipt = await web3.eth.getTransactionReceipt(item)
-            transaction.gasUsed = receipt.gasUsed
-            transaction.timestamp = result.timestamp * 1000
-            transaction.time = new Date(transaction.timestamp)
-            transaction.fee = parseFloat(transaction.gasPrice) * transaction.gasUsed
-            allTrx.push(transaction)
-            return transaction;
-          }
-
-
-
-      }))
-    }
-    console.log('end')
-    return allTrx;
-  } catch {
-    console.log(err)
-  }
-
-
-}
-
-const getTransaction = async (adr) => {
-  let first = Date.now()
-  var tran = await getTran(adr)
-  let second = Date.now()
-  console.log((second - first) / 1000 + ' seconds')
-  return tran
-}
-
 const postTransaction = (trx) => {
   const postTrx = new postTran({
     Hash: trx.hash,
@@ -285,7 +233,7 @@ const getBlockInfo = async (blocknumber) => {
         postTransaction(transaction)
         return transaction;
       }
-    }))
+    })) 
     return detailTxn
   } catch (err) {
     console.log(err)
@@ -299,10 +247,7 @@ const getBlockchain = async (blocknum) => {
    
      let blockInfo =  getBlockInfo(blocknum)
       Promises.push(blockInfo)
-   
-    
-
-   let blockChain= await Promise.all(Promises)
+      let blockChain= await Promise.all(Promises)
    console.log(blockChain)
     console.log('end')
     return 'hello';
@@ -310,15 +255,18 @@ const getBlockchain = async (blocknum) => {
     console.log(err)
   }
 }
-let i=9000020
+
+
+
+let i=700000
 const blockChainHandler=()=>{
   setTimeout(()=>{
     getBlockchain(i)
 i++
-if(i<=9000030){
+if(i<=700100){
   blockChainHandler()
 }
-  },100)
+  },1000)
 }
 app.get('/', async (req, res) => {
   res.send('im loading')
