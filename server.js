@@ -19,7 +19,7 @@ require('dotenv').config()
 app.use(bodyParser.json()) //parsing 
 app.use(cors()) 
 //let address = '0x07ee55aa48bb72dcc6e9d78256648910de513eca'
-mongoose.connect(process.env.MONGODB_URI || process.env.DB_CONNECTION, {
+mongoose.connect( process.env.DB_CONNECTION|| process.env.MONGODB_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true
 }, () => {
